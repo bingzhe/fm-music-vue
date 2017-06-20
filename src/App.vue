@@ -1,23 +1,41 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <div class="fm-pane-min icon-music-b" v-if="show"></div>
+    <router-view v-if="show"></router-view>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      show: true
+    }
+  },
   name: 'app'
 }
 </script>
+ 
+<style lang="scss">
+@import './style/common.scss';
+@import './style/iconfont/iconfont.css';
 
-<style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  position: absolute;
+  top: 130px;
+  left: 150px;
+
+  .fm-pane-min {
+    position: absolute;
+    @include tl(10px, -50px);
+    @include wh(30px, 30px);
+    @include fc(20px, rgba(170, 170, 170, 0.5));
+    border-radius: 15px;
+    text-align: center;
+    line-height: 32px;
+    font-family: iconfont;
+    background-color: #000;
+    cursor: pointer;
+  }
 }
-</style>
+</style>s
