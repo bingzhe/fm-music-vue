@@ -8,28 +8,30 @@
             <p class="singer">XXX</p>
         </div>
         <!-- 频道栏 -->
-        <div class="channels">
-            <div class="channel-btn icon-menu"></div>
-            <ul class="channels-list">
-                <li class="list-selected">1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-                <li>1111111111</li>
-            </ul>
+        <div class="channels" @mouseenter="showChannel" @mouseleave ="hiddenChannel">
+            <div class="channel-btn icon-menu" ></div>
+            <transition name="fade">
+                <ul class="channels-list" v-if="isChannelShow" @mouseleave ="hiddenChannel">
+                    <li class="list-selected">1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                    <li>1111111111</li>
+                </ul>
+            </transition>
         </div>
     </div>
 </template>
@@ -46,7 +48,9 @@ export default {
 
     },
     data () {
-        return {}
+        return {
+            isChannelShow: false
+        }
     },
     computed:{
 
@@ -54,6 +58,12 @@ export default {
     methods: {
         closeMySelf (){
             this.$emit("on-close")
+        },
+        showChannel (){
+            this.isChannelShow = true
+        },
+        hiddenChannel (){
+            this.isChannelShow = false
         }
     }
 }
