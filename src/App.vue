@@ -1,7 +1,14 @@
 <template>
   <div id="app">
-    <div class="fm-pane-min icon-music-b" v-if="isPaneShow" @click="paneShow"></div>
-    <router-view v-if="!isPaneShow" :is-show="isPaneShow" @on-close="paneShow"></router-view>
+    <transition name="fade">
+      <div class="fm-pane-min icon-music-b" v-if="isPaneShow" @click="paneShow"></div>
+    </transition>
+    <transition name="fade">
+      <keep-alive>
+        <router-view v-if="!isPaneShow" :is-show="isPaneShow" @on-close="paneShow"></router-view>
+      </keep-alive>
+    </transition>
+    
   </div>
 </template>
 
