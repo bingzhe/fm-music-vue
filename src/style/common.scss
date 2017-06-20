@@ -82,6 +82,22 @@ body {
   float: right;
 }
 
+// 滚动条样式
+ ::-webkit-scrollbar {
+  width: 2px;
+  background-color: #fff;
+}
+
+ ::-webkit-scrollbar-thumb {
+  background-color: rgba(187, 187, 187, 0.7);
+  height: 10px;
+  border-radius: 3px;
+}
+
+ ::-webkit-scrollbar-button {
+  height: 0px;
+}
+
 .clear:after {
   content: '';
   display: block;

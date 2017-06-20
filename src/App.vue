@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div class="fm-pane-min icon-music-b" v-if="show"></div>
-    <router-view v-if="show"></router-view>
+    <div class="fm-pane-min icon-music-b" v-if="isPaneShow" @click="paneShow"></div>
+    <router-view v-if="!isPaneShow" :is-show="isPaneShow" @on-close="paneShow"></router-view>
   </div>
 </template>
 
@@ -9,7 +9,15 @@
 export default {
   data() {
     return {
-      show: true
+      isPaneShow: true
+    }
+  },
+  computed: {
+
+  },
+  methods: {
+    paneShow () {
+      this.isPaneShow = !this.isPaneShow
     }
   },
   name: 'app'
