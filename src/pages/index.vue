@@ -1,5 +1,6 @@
 <template>
     <div id="fm-pane" class="clear">
+        <audio id="music"></audio>
         <!--返回键-->
         <div class="back close icon-back left" @click="closeMySelf"></div>
         <!-- 标题栏 -->
@@ -8,28 +9,12 @@
             <p class="singer">XXX</p>
         </div>
         <!-- 频道栏 -->
-        <div class="channels" @mouseenter="showChannel" @mouseleave ="hiddenChannel">
-            <div class="channel-btn icon-menu" ></div>
+        <div class="channels" @mouseenter="showChannel" @mouseleave="hiddenChannel">
+            <div class="channel-btn" :class="{'icon-menu': isMenu, 'icon-minus': !isMenu}"></div>
             <transition name="fade">
-                <ul class="channels-list" v-if="isChannelShow" @mouseleave ="hiddenChannel">
-                    <li class="list-selected">1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
-                    <li>1111111111</li>
+                <ul class="channels-list" v-if="isChannelShow" @mouseleave="hiddenChannel">
+                    <li :class="{'list-selected': isListSelected === index}" v-for="(item, index) in channelsList" 
+                    @click="addClassSelect(index)">{{ item.name }}</li>
                 </ul>
             </transition>
         </div>
@@ -41,30 +26,55 @@ export default {
     propts: {
         isShow: {
             type: Boolean,
-            default: false
+            default: false,
         }
     },
     components: {
 
     },
-    data () {
+    data() {
         return {
-            isChannelShow: false
+            isChannelShow: false,
+            isMenu: true,  //class icon-menu判断
+            isListSelected: '',
+            channelsList: []
         }
     },
-    computed:{
+    computed: {
 
     },
     methods: {
-        closeMySelf (){
+        closeMySelf() {
             this.$emit("on-close")
         },
-        showChannel (){
+        showChannel() {
             this.isChannelShow = true
+            this.isMenu = false
         },
-        hiddenChannel (){
+        hiddenChannel() {
             this.isChannelShow = false
+            this.isMenu = true
+        },
+        addClassSelect(index) {
+            this.isListSelected = index
+        },
+        getChannelList() {
+            this.$http({
+                methods: 'get',
+                url: 'http://api.jirengu.com/fm/getChannels.php'
+            })
+            .then((response) => {
+                console.log(response)
+                this.channelsList = response.data.channels
+                console.log(this.channelsList)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         }
+    },
+    mounted () {
+        this.getChannelList()
     }
 }
 </script>
@@ -82,19 +92,21 @@ export default {
     .back {
         margin-left: 10px;
         margin-top: 15px;
-        @include wh(30px,30px);
-        @include fc(20px,#eee);
+        @include wh(30px,
+        30px);
+        @include fc(20px,
+        #eee);
         font-family: iconfont;
         text-align: center;
         line-height: 30px;
         cursor: pointer;
-    } 
-    
-    // 标题栏
+    } // 标题栏
     .title {
         position: absolute;
-        @include tl(10px,50px);
-        @include wh(200px,40px);
+        @include tl(10px,
+        50px);
+        @include wh(200px,
+        40px);
         text-align: left;
         border-bottom: 1px solid rgba(221, 221, 221, 0.5);
         letter-spacing: 1px;
@@ -103,32 +115,36 @@ export default {
 
         .song-name {
             line-height: 20px;
-            @include fc(13px, #fff);
+            @include fc(13px,
+            #fff);
         }
 
         .singer {
             line-height: 15px;
-            @include fc(13px, #aaa);
+            @include fc(13px,
+            #aaa);
         }
-    }
-
-    //频道分类
-    .channels{
+    } //频道分类
+    .channels {
         position: absolute;
-        @include tl(15px, 260px);
+        @include tl(15px,
+        260px);
         z-index: 100;
 
-        .channel-btn{
-            @include wh(30px, 30px);
-            @include fc(25px, #fff);
+        .channel-btn {
+            @include wh(30px,
+            30px);
+            @include fc(25px,
+            #fff);
             text-align: center;
             line-height: 30px;
             font-family: 'iconfont';
             cursor: pointer;
         }
 
-        .channels-list{
-            @include wh(110px, 328px);
+        .channels-list {
+            @include wh(110px,
+            328px);
             margin-top: 10px;
             padding: 8px 0;
             background-color: #fff;
@@ -156,13 +172,14 @@ export default {
                 content: '';
                 display: block;
                 position: absolute;
-                @include tl(0px, 0px);
-                @include wh(5px, 30px);
+                @include tl(0px,
+                0px);
+                @include wh(5px,
+                30px);
                 background-color: #db4437;
             }
         }
-    }   
-    
+    }
 }
 </style>
 
