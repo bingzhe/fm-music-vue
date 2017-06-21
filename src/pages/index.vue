@@ -58,6 +58,7 @@ export default {
         addClassSelect(index) {
             this.isListSelected = index
         },
+        // 请求拿到音乐频道列表
         getChannelList() {
             this.$http({
                 methods: 'get',
