@@ -7,21 +7,23 @@ import Lyric from '../components/lyric'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'IndexPage',
-      component: IndexPage,
-      children: [
-        {
-          path: 'rotate',
-          component: Rotate
-        },
-        {
-          path: 'lyric',
-          component: Lyric
-        }
-      ]
-    }
-  ]
+    routes: [{
+        path: '/',
+        name: 'IndexPage',
+        component: IndexPage,
+        children: [{
+                path: '',
+                redirect: 'rotate'
+            },
+            {
+
+                path: 'rotate',
+                component: Rotate
+            },
+            {
+                path: 'lyric',
+                component: Lyric
+            }
+        ]
+    }]
 })

@@ -24,6 +24,9 @@
                 <router-view></router-view>
             </keep-alive>
         </transition>
+    
+        <!-- 歌词显示按钮 -->
+        <router-link :to="this.$route.path === '/rotate' ? '/lyric': '/rotate'" class="lyric-btn icon-lyric" title="歌词显示"></router-link>
     </div>
 </template>
 
@@ -82,6 +85,7 @@ export default {
     },
     mounted() {
         this.getChannelList()
+        console.log(this.$route.path)
     }
 }
 </script>
@@ -186,6 +190,20 @@ export default {
                 background-color: #db4437;
             }
         }
+    }
+
+    .lyric-btn {
+        position: absolute;
+        right: 55px;
+        bottom: 130px;
+        height: 16px;
+        width: 16px;
+        line-height: 16px;
+        text-align: center;
+        font-family: iconfont;
+        font-size: 16px;
+        color: rgba(170, 170, 170, 0.7);
+        cursor: pointer;
     }
 }
 </style>
