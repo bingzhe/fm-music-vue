@@ -13,11 +13,17 @@
             <div class="channel-btn" :class="{'icon-menu': isMenu, 'icon-minus': !isMenu}"></div>
             <transition name="fade">
                 <ul class="channels-list" v-if="isChannelShow" @mouseleave="hiddenChannel">
-                    <li :class="{'list-selected': isListSelected === index}" v-for="(item, index) in channelsList" 
-                    @click="addClassSelect(index)">{{ item.name }}</li>
+                    <li :class="{'list-selected': isListSelected === index}" v-for="(item, index) in channelsList" @click="addClassSelect(index)" :channel-id="item.channel_id">{{ item.name }}</li>
                 </ul>
             </transition>
         </div>
+    
+        <!--黑胶圆盘，歌词-->
+        <transition name="fade">
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
+        </transition>
     </div>
 </template>
 
@@ -37,7 +43,7 @@ export default {
             isChannelShow: false,
             isMenu: true,  //class icon-menu判断
             isListSelected: '',
-            channelsList: []
+            channelsList: []  //存放音乐频道分类
         }
     },
     computed: {
@@ -64,17 +70,17 @@ export default {
                 methods: 'get',
                 url: 'http://api.jirengu.com/fm/getChannels.php'
             })
-            .then((response) => {
-                console.log(response)
-                this.channelsList = response.data.channels
-                console.log(this.channelsList)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+                .then((response) => {
+                    console.log(response)
+                    this.channelsList = response.data.channels
+                    console.log(this.channelsList)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
         }
     },
-    mounted () {
+    mounted() {
         this.getChannelList()
     }
 }
