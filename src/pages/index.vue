@@ -26,7 +26,7 @@
         </transition>
     
         <!-- 歌词显示按钮 -->
-        <router-link :to="this.$route.path === '/rotate' ? '/lyric': '/rotate'" class="lyric-btn icon-lyric" title="歌词显示"></router-link>
+        <router-link :to="this.$route.path === '/rotate' ? '/lyric': '/rotate'" class="lyric-btn icon-lyric" :class="{ 'lyric-btn-active': this.$route.path === '/rotate' ? false : true}" title="歌词显示"></router-link>
     </div>
 </template>
 
@@ -204,6 +204,9 @@ export default {
         font-size: 16px;
         color: rgba(170, 170, 170, 0.7);
         cursor: pointer;
+    }
+    .lyric-btn-active {
+        color: rgb(219, 68, 55);
     }
 }
 </style>
