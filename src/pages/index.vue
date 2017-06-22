@@ -1,12 +1,12 @@
 <template>
     <div id="fm-pane" class="clear">
-        <audio id="music"></audio>
+        <audio id="music" :src="musicUrl"></audio>
         <!--返回键-->
         <div class="back close icon-back left" @click="closeMySelf"></div>
         <!-- 标题栏 -->
         <div class="title panel-handle">
-            <p class="song-name">XXXXX</p>
-            <p class="singer">XXX</p>
+            <p class="song-name">{{ songName }}</p>
+            <p class="singer">{{ songer }}</p>
         </div>
         <!-- 频道栏 -->
         <div class="channels" @mouseenter="showChannel" @mouseleave="hiddenChannel">
@@ -21,7 +21,7 @@
         <!--黑胶圆盘，歌词-->
         <transition name="fade">
             <keep-alive>
-                <router-view></router-view>
+                <router-view :picture-url="this.picture" :lyric-url="this.lyric"></router-view>
             </keep-alive>
         </transition>
     
@@ -32,7 +32,7 @@
 
 <script>
 export default {
-    propts: {
+    props: {
         isShow: {
             type: Boolean,
             default: false,
@@ -49,7 +49,13 @@ export default {
             channelsList: [],  //存放音乐频道分类
             song: {},
             songArr: [],
-            channelId: 'public_tuijian_spring' //频道ID
+            channelId: 'public_tuijian_spring', //频道ID
+            songName: '', //歌曲名
+            songer: '', //歌手
+            musicUrl: '',  //歌曲地址
+            picture: '../assets/timg4.jpg', //图片
+            lyric: '',  //歌词地址
+
         }
     },
     computed: {
@@ -69,6 +75,9 @@ export default {
         },
         addClassSelect(index) {
             this.isListSelected = index
+            this.channelId = $('.list-selected').attr('channel-id')
+            console.log(this.channelId)
+            this.getAndReset(this.channelId);
         },
         // 请求拿到音乐频道列表
         getChannelList() {
@@ -85,40 +94,35 @@ export default {
         },
         // 请求歌曲
         getAndReset(str) {
-
             $.get('http://api.jirengu.com/fm/getSong.php', {
                 channel: str
             })
-                .done(function (data) {
-                    console.log(JSON.parse(data))
+                .done((data) => {
                     this.song = JSON.parse(data).song[0]
-
-                    console.log(this.song)
+                    this.songArr.push(this.song)
+                    this.songReset(this.song) //重置歌曲
                 })
-
-
-
-
-            // this.$http({
-            //     methods: 'get',
-            //     url: 'http://api.jirengu.com/fm/getSong.php',
-            //     data: {
-            //         channel: str
-            //     }
-            // })
-            // .then((response) => {
-            //     console.log(response)
-            // })
-            // .catch((error) => {
-            //     console.log(error)
-            // })
+                .fail((err) => {
+                    console.log(err)
+                })
+        },
+        //歌曲重置
+        songReset(song) {
+            console.log(song)
+            this.musicUrl = song.url
+            document.getElementById("music").load();
+            this.songName = song.title
+            this.songer = song.artist
+            this.picture = song.picture
+            this.lyric = song.lrc
+            console.log(this.picture)
+    
         }
 
     },
     mounted() {
         this.getChannelList()
         this.getAndReset(this.channelId)
-        console.log(this.$route.path)
     }
 }
 </script>

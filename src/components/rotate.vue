@@ -2,15 +2,41 @@
   <div id="rotate">
     <div class="needle needle-pause"></div>
     <div class="disco">
-      <div class="cover"></div>
-      <div class="current-cover"></div>
+      <div class="cover" :style="{ backgroundImage: 'url('+ pictureUrl +')'}"></div>
+      <div class="current-cover" @click="text"></div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  props: {
+    pictureUrl: {
+      type: String,
+      default: '../assets/timg4.jpg',
+    },
+    lyricUrl: {
+      type: String,
+      default: '',
+    }
+  },
+  data() {
+    return {
+      backgroundObject: {
+        backgroundImage: url(this.pictureUrl)
+      }
+    }
+  },
+  methods: {
+    text(){
+      console.log(this.pictureUrl)
+      console.log(this.lyricUrl)
+    }
+  },
+  mounted() {
+    console.log(1111111111122222)
+    console.log(this.pictureUrl)
+  }
 }
 </script>
 
