@@ -13,29 +13,26 @@ export default {
   props: {
     pictureUrl: {
       type: String,
-      default: '../assets/timg4.jpg',
-    },
-    lyricUrl: {
-      type: String,
       default: '',
+    },
+    lyricObj: {
+      type: Object,
+      // default: {}
     }
   },
   data() {
     return {
-      backgroundObject: {
-        backgroundImage: url(this.pictureUrl)
-      }
+
     }
   },
   methods: {
     text(){
       console.log(this.pictureUrl)
-      console.log(this.lyricUrl)
+      console.log(this.lyricObj)
     }
   },
   mounted() {
-    console.log(1111111111122222)
-    console.log(this.pictureUrl)
+    // console.log(this.pictureUrl)
   }
 }
 </script>

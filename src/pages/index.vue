@@ -21,7 +21,7 @@
         <!--黑胶圆盘，歌词-->
         <transition name="fade">
             <keep-alive>
-                <router-view :picture-url="this.picture" :lyric-url="this.lyric"></router-view>
+                <router-view :picture-url="this.picture" :lyric-obj="this.lyricObj"></router-view>
             </keep-alive>
         </transition>
     
@@ -55,6 +55,8 @@ export default {
             musicUrl: '',  //歌曲地址
             picture: '../assets/timg4.jpg', //图片
             lyric: '',  //歌词地址
+            sid: '',
+            lyricObj: {},
 
         }
     },
@@ -114,15 +116,20 @@ export default {
             this.songName = song.title
             this.songer = song.artist
             this.picture = song.picture
-            this.lyric = song.lrc
-            console.log(this.picture)
-    
+            // this.lyric = song.lrc
+            // this.sid = song.sid
+            this.lyricObj.lyric = song.lrc
+            this.lyricObj.sid = song.sid
+            // console.log(this.picture)
+            // console.log(this.sid)
+            // console.log(this.lyricObj)
         }
 
     },
     mounted() {
         this.getChannelList()
         this.getAndReset(this.channelId)
+        // console.log(this.lyricObj)
     }
 }
 </script>

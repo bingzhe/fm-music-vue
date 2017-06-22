@@ -29,7 +29,32 @@
 
 <script>
 export default {
-
+    props: {
+        lyricObj: {
+            type: Object,
+            // default: {},
+        }
+    },
+    data() {
+        return {
+            Lyric: ''
+        }
+    },
+    methods: {
+        lyricReset(sidstr) {
+            $.post('http://api.jirengu.com/fm/getLyric.php', {
+                sid: sidstr
+            })
+                .done((data) => {
+                    console.log(JSON.parse(data));
+                    this.Lyric = JSON.parse(data).lyric
+                })
+        }
+    },
+    mounted(){
+        this.lyricReset(this.lyricObj.sid)
+        console.log(this.Lyric)
+    }
 }
 </script>
 
