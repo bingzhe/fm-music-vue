@@ -46,7 +46,10 @@ export default {
             isChannelShow: false,
             isMenu: true,  //class icon-menu判断
             isListSelected: '',
-            channelsList: []  //存放音乐频道分类
+            channelsList: [],  //存放音乐频道分类
+            song: {},
+            songArr: [],
+            channelId: 'public_tuijian_spring' //频道ID
         }
     },
     computed: {
@@ -74,17 +77,47 @@ export default {
                 url: 'http://api.jirengu.com/fm/getChannels.php'
             })
                 .then((response) => {
-                    console.log(response)
                     this.channelsList = response.data.channels
-                    console.log(this.channelsList)
                 })
                 .catch((error) => {
                     console.log(error)
                 })
+        },
+        // 请求歌曲
+        getAndReset(str) {
+
+            $.get('http://api.jirengu.com/fm/getSong.php', {
+                channel: str
+            })
+                .done(function (data) {
+                    console.log(JSON.parse(data))
+                    this.song = JSON.parse(data).song[0]
+
+                    console.log(this.song)
+                })
+
+
+
+
+            // this.$http({
+            //     methods: 'get',
+            //     url: 'http://api.jirengu.com/fm/getSong.php',
+            //     data: {
+            //         channel: str
+            //     }
+            // })
+            // .then((response) => {
+            //     console.log(response)
+            // })
+            // .catch((error) => {
+            //     console.log(error)
+            // })
         }
+
     },
     mounted() {
         this.getChannelList()
+        this.getAndReset(this.channelId)
         console.log(this.$route.path)
     }
 }
