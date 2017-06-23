@@ -27,12 +27,19 @@
     
         <!-- 歌词显示按钮 -->
         <router-link :to="this.$route.path === '/rotate' ? '/lyric': '/rotate'" class="lyric-btn icon-lyric" :class="{ 'lyric-btn-active': this.$route.path === '/rotate' ? false : true}" title="歌词显示"></router-link>
-
+    
         <!-- 音量控制 -->
         <volume-ctrl></volume-ctrl>
-
+    
         <!--进度条-->
         <progress-ctrl></progress-ctrl>
+    
+        <!--  播放控制  -->
+        <div id="control">
+            <div class="prev icon-prev"></div>
+            <div class="next icon-next"></div>
+            <div class="on-off play icon-start1"></div>
+        </div>
     </div>
 </template>
 
@@ -261,6 +268,60 @@ export default {
     }
     .lyric-btn-active {
         color: rgb(219, 68, 55);
+    }
+
+    #control {
+        position: absolute;
+        bottom: 0;
+        left: 60px;
+        @include wh(180px,
+        100px);
+        font-family: 'iconfont';
+        color: #fff;
+
+        .prev {
+            float: left;
+            margin: 30px 0;
+            @include wh(40px,
+            40px);
+            text-align: center;
+            line-height: 40px;
+            font-size: 17px;
+            border: 1px solid #fff;
+            border-radius: 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-family: 'iconfont';
+            color: #fff;
+        }
+        .next {
+            float: right;
+            margin: 30px 0;
+            @include wh(40px,
+            40px);
+            text-align: center;
+            line-height: 40px;
+            font-size: 17px;
+            border: 1px solid #fff;
+            border-radius: 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-family: 'iconfont';
+            color: #fff;
+        }
+        .on-off {
+            margin: 23px 63px;
+            @include wh(54px, 54px);
+            text-align: center;
+            line-height: 54px;
+            font-size: 25px;
+            border: 1px solid #fff;
+            border-radius: 27px;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-family: 'iconfont';
+            color: #fff;
+        }
     }
 }
 </style>
