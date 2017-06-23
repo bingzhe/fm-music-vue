@@ -8,11 +8,14 @@
         <router-view v-if="!isPaneShow" :is-show="isPaneShow" @on-close="paneShow"></router-view>
       </keep-alive>
     </transition>
-    
+  
   </div>
 </template>
 
 <script>
+import Draggabilly from 'draggabilly'
+// var Draggabilly = require('draggabilly');
+
 export default {
   data() {
     return {
@@ -23,9 +26,19 @@ export default {
 
   },
   methods: {
-    paneShow () {
+    paneShow() {
       this.isPaneShow = !this.isPaneShow
     }
+  },
+  mounted() {
+    // console.log(Drag)
+    console.log($("#app"))
+    // console.log(draggabilly)
+    // $('.fm-pane-min').Drag()
+    // var $draggable = $("#app").Draggabilly()
+    var draggie = new Draggabilly('#app', {
+      // options
+    });
   },
   name: 'app'
 }
