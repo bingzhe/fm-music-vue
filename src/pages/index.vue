@@ -30,11 +30,16 @@
 
         <!-- 音量控制 -->
         <volume-ctrl></volume-ctrl>
+
+        <!--进度条-->
+        <progress-ctrl></progress-ctrl>
     </div>
 </template>
 
 <script>
 import volumeCtrl from '../components/volume'
+import progressCtrl from '../components/progress'
+
 export default {
     props: {
         isShow: {
@@ -43,7 +48,8 @@ export default {
         }
     },
     components: {
-        volumeCtrl
+        volumeCtrl,
+        progressCtrl
     },
     data() {
         return {

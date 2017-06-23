@@ -1,5 +1,5 @@
 <template>
-    <div id="volume">
+    <div id="volume" class="clearfix">
         <div class="volume-button icon-volume-on"></div>
         <div class="volume-bar">
             <div class="volume-pathway">
