@@ -1,7 +1,7 @@
 <template>
     <div id="lyric">
         <div class="lyric-ct">
-            <div class="lyric-box">
+            <div class="lyric-box" :class="classObj">
                 <p>11111111111</p>
                 <p>11111111111</p>
                 <p>11111111111</p>
@@ -37,7 +37,11 @@ export default {
     },
     data() {
         return {
-            Lyric: ''
+            Lyric: '',
+            classObj: {
+                'active': true,
+                'class-a': true
+            }
         }
     },
     methods: {
