@@ -27,10 +27,14 @@
     
         <!-- 歌词显示按钮 -->
         <router-link :to="this.$route.path === '/rotate' ? '/lyric': '/rotate'" class="lyric-btn icon-lyric" :class="{ 'lyric-btn-active': this.$route.path === '/rotate' ? false : true}" title="歌词显示"></router-link>
+
+        <!-- 音量控制 -->
+        <volume-ctrl></volume-ctrl>
     </div>
 </template>
 
 <script>
+import volumeCtrl from '../components/volume'
 export default {
     props: {
         isShow: {
@@ -39,7 +43,7 @@ export default {
         }
     },
     components: {
-
+        volumeCtrl
     },
     data() {
         return {
