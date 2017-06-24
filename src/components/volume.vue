@@ -14,14 +14,26 @@
 
 
 <script>
+import Draggabilly from 'draggabilly'
+
+
 export default {
     props: {
 
     },
     data() {
         return {
-
+            drag: {}
         }
+    },
+    methods: {
+
+    },
+    mounted() {
+        this.drag = new Draggabilly('.volume-handle', {
+            axis: 'x',  //拖动路径
+            containment: '.volume-pathway'  //拖动范围
+        })
     }
 }
 </script>

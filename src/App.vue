@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="fade">
-      <div class="fm-pane-min icon-music-b" v-if="isPaneShow" @click="paneShow"></div>
+      <div class="fm-pane-min icon-music-b panel-handle" v-if="isPaneShow" @click="paneShow"></div>
     </transition>
     <transition name="fade">
       <keep-alive>
@@ -14,7 +14,6 @@
 
 <script>
 import Draggabilly from 'draggabilly'
-// var Draggabilly = require('draggabilly');
 
 export default {
   data() {
@@ -36,9 +35,16 @@ export default {
     // console.log(draggabilly)
     // $('.fm-pane-min').Drag()
     // var $draggable = $("#app").Draggabilly()
-    var draggie = new Draggabilly('#app', {
-      // options
-    });
+    // var draggie = 
+
+    new Draggabilly('#app', {
+      handle: '.panel-handle'
+    });   //拖动
+  },
+  updated() {
+    new Draggabilly('#app', {
+      handle: '.panel-handle'
+    });   //拖动
   },
   name: 'app'
 }

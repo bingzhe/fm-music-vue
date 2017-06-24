@@ -47,6 +47,7 @@
 import volumeCtrl from '../components/volume'
 import progressCtrl from '../components/progress'
 
+
 export default {
     props: {
         isShow: {
