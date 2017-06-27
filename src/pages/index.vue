@@ -21,7 +21,7 @@
         <!--黑胶圆盘，歌词-->
         <transition name="fade">
             <keep-alive>
-                <router-view :picture-url="this.picture" :lyric-obj="this.lyricObj"></router-view>
+                <router-view :picture-url="this.picture" :lyric-sid="this.sid"></router-view>
             </keep-alive>
         </transition>
     
@@ -135,11 +135,11 @@ export default {
             this.songer = song.artist
             this.picture = song.picture
             // this.lyric = song.lrc
-            // this.sid = song.sid
+            this.sid = song.sid
             this.lyricObj.lyric = song.lrc
             this.lyricObj.sid = song.sid
             // console.log(this.picture)
-            // console.log(this.sid)
+            console.log(this.sid)
             // console.log(this.lyricObj)
         }
 

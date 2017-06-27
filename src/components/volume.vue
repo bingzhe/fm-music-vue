@@ -33,9 +33,11 @@ export default {
         dragMove() {
             this.drag.on('dragMove', () => {
                 this.width = this.drag.position.x
-                console.log(this.drag.position.x)
-                // console.log(this.drag)
-                // console.log(this.width)
+                if (this.width === 0) {
+                    this.volumeOn = false
+                } else {
+                    this.volumeOn = true
+                }
             })
         },
         //点击控制进度
@@ -43,6 +45,11 @@ export default {
             this.width = event.offsetX
             let $volumeHandle = $('.volume-handle').css('left', this.width + 'px')
 
+            if (this.width === 0) {
+                this.volumeOn = false
+            } else {
+                this.volumeOn = true
+            }
             //设置正确的播放时间
 
         },

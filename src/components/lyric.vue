@@ -2,26 +2,7 @@
     <div id="lyric">
         <div class="lyric-ct">
             <div class="lyric-box" :class="classObj">
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-                <p>11111111111</p>
-    
+                <p v-for="item in lyricArr"> {{ item }}</p>
             </div>
         </div>
     </div>
@@ -30,8 +11,8 @@
 <script>
 export default {
     props: {
-        lyricObj: {
-            type: Object,
+        lyricSid: {
+            type: Number | String
             // default: {},
         }
     },
@@ -41,23 +22,77 @@ export default {
             classObj: {
                 'active': true,
                 'class-a': true
-            }
+            },
+            lyricArr: [],   //歌词数组
+            lyricTimeArr: []  //时间数组
         }
     },
+    watch: {
+        //父组件传过来的lyricSid值改变的时候，重置歌词
+        lyricSid: function () {
+            this.lyricReset(this.lyricSid)
+        }
+
+
+    },
     methods: {
+        //重置歌词
         lyricReset(sidstr) {
             $.post('http://api.jirengu.com/fm/getLyric.php', {
                 sid: sidstr
             })
                 .done((data) => {
-                    console.log(JSON.parse(data));
                     this.Lyric = JSON.parse(data).lyric
+                    this.lyricFormat(this.Lyric)
+
+                    console.log(this.Lyric)
                 })
+                .fail((err) => {
+                    console.log(err)
+                })
+        },
+        //处理歌词
+        lyricFormat(str) {
+            this.lyricArr = []
+            let lyArr = str.split('\n')
+            let reg1 = /^\[ti:/
+            let reg2 = /^\[ar:/
+            let reg3 = /^\[al:/
+            let reg4 = /^\[by:/
+            let lyric
+
+            for (let i = 0; i < lyArr.length; i++) {
+
+                if (reg1.test(lyArr[i]) || reg2.test(lyArr[i]) || reg3.test(lyArr[i]) || reg4.test(lyArr[i])) {
+                    lyric = ''
+                } else {
+                    lyric = lyArr[i].slice(10)
+                    this.lyricTimeFormat(lyArr[i])
+                }
+                this.lyricArr.push(lyric)
+
+                
+            }
+            console.log(this.lyricArr)
+        },
+        //处理时间
+        lyricTimeFormat(str) {
+
+            let min = Number(str.slice(1, 3))
+            var sec = min * 60 + Number(str.slice(4, 6))
+
+            this.lyricTimeArr.push(sec)
+
         }
     },
-    mounted(){
-        this.lyricReset(this.lyricObj.sid)
-        console.log(this.Lyric)
+    beforeUpdate() {
+        // this.lyricReset(this.lyricObj.sid)
+        // console.log(this.lyricSid)
+    },
+    mounted() {
+        // console.log(this.lyricObj)
+        // this.lyricReset(this.lyricSid)
+        // console.log(this.Lyric)
     }
 }
 </script>
