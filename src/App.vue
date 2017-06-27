@@ -30,13 +30,6 @@ export default {
     }
   },
   mounted() {
-    // console.log(Drag)
-    console.log($("#app"))
-    // console.log(draggabilly)
-    // $('.fm-pane-min').Drag()
-    // var $draggable = $("#app").Draggabilly()
-    // var draggie = 
-
     new Draggabilly('#app', {
       handle: '.panel-handle'
     });   //拖动

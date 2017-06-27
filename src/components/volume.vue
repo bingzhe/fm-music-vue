@@ -2,7 +2,7 @@
     <div id="volume" class="clearfix">
         <div class="volume-button icon-volume-on"></div>
         <div class="volume-bar">
-            <div class="volume-pathway">
+            <div class="volume-pathway"  @click="clickCtrl($event)">
                 <div class="volume-line" :style="{width: width + 'px'}">
                 </div>
     
@@ -31,15 +31,10 @@ export default {
         // 拖动控制播放进度
         dragMove() {
             this.drag.on('dragMove', () => {
-                this.width = 100 + this.drag.position.x
-                console.log(this.drag)
-                console.log(this.width)
-            })
-            this.drag.on('dragStart', () => {
-                //播放暂停
-            })
-            this.drag.on('dragEnd', () => {
-                //播放开始，计算正确的播放进度
+                this.width = this.drag.position.x
+                console.log(this.drag.position.x)
+                // console.log(this.drag)
+                // console.log(this.width)
             })
         },
         //点击控制进度
@@ -108,17 +103,17 @@ export default {
             @include wh(106px, 2px);
             border-radius: 1px;
             background-color: rgba(102, 102, 102, 0.6);
-
+            cursor: pointer;
+            
             .volume-line {
-                float: left;
                 @include wh(0px, 2px);
                 border-radius: 1px 0 0 1px;
                 background-color: rgba(255, 255, 255, 0.7);
             }
 
             .volume-handle {
-                position: relative;
-                float: left;
+                position: absolute;
+                @include tl(0px, 100px);
                 margin: -2px 0;
                 @include wh(6px, 6px);
                 border-radius: 3px;
