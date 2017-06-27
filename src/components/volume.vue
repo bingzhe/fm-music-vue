@@ -1,8 +1,8 @@
 <template>
     <div id="volume" class="clearfix">
-        <div class="volume-button icon-volume-on"></div>
+        <div class="volume-button" :class="volumeOn ? 'icon-volume-on' : 'icon-volume-off'" @click="mute"></div>
         <div class="volume-bar">
-            <div class="volume-pathway"  @click="clickCtrl($event)">
+            <div class="volume-pathway" @click="clickCtrl($event)">
                 <div class="volume-line" :style="{width: width + 'px'}">
                 </div>
     
@@ -24,6 +24,7 @@ export default {
     data() {
         return {
             width: 100,
+            volumeOn: true,
             drag: {}
         }
     },
@@ -44,6 +45,18 @@ export default {
 
             //设置正确的播放时间
 
+        },
+        //点击静音/取消静音效果
+        mute() {  //mute 静音键
+            if (this.volumeOn) {
+                this.width = 0
+                this.volumeOn = false
+                $('.volume-handle').css('left', this.width + 'px')
+            } else {
+                this.width = 100
+                this.volumeOn = true
+                $('.volume-handle').css('left', this.width + 'px')
+            }
         },
         //阻止冒泡
         stopBubble(event) {
@@ -104,7 +117,7 @@ export default {
             border-radius: 1px;
             background-color: rgba(102, 102, 102, 0.6);
             cursor: pointer;
-            
+
             .volume-line {
                 @include wh(0px, 2px);
                 border-radius: 1px 0 0 1px;
