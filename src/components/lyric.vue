@@ -1,7 +1,7 @@
 <template>
     <div id="lyric">
         <div class="lyric-ct">
-            <div class="lyric-box" :class="classObj">
+            <div class="lyric-box" :class="classObj" :style="{top: top + 'px'}">
                 <p v-for="item in lyricArr"> {{ item }}</p>
             </div>
         </div>
@@ -24,7 +24,8 @@ export default {
                 'class-a': true
             },
             lyricArr: [],   //歌词数组
-            lyricTimeArr: []  //时间数组
+            lyricTimeArr: [],  //时间数组
+            top: 80
         }
     },
     watch: {
@@ -67,10 +68,11 @@ export default {
                     lyric = ''
                 } else {
                     lyric = lyArr[i].slice(10)
-                    this.lyricTimeFormat(lyArr[i])
+                    
                 }
                 this.lyricArr.push(lyric)
 
+                this.lyricTimeFormat(lyArr[i])
                 
             }
             console.log(this.lyricArr)
@@ -79,10 +81,18 @@ export default {
         lyricTimeFormat(str) {
 
             let min = Number(str.slice(1, 3))
-            var sec = min * 60 + Number(str.slice(4, 6))
+            let sec = min * 60 + Number(str.slice(4, 6))
 
             this.lyricTimeArr.push(sec)
 
+        },
+        //歌词滚动
+        lyricBoxMove( num ){
+            for (let i=1; i<this.lyricTimeArr.length; i++){
+                if ( num === this.lyricTimeArr[i]){
+                    this.top = 80 - i*40
+                }
+            }
         }
     },
     beforeUpdate() {
