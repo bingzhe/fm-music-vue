@@ -1,9 +1,11 @@
 <template>
     <div id="lyric">
         <div class="lyric-ct">
-            <div class="lyric-box" :class="classObj" :style="{top: top + 'px'}">
-                <p v-for="item in lyricArr"> {{ item }}</p>
-            </div>
+            <transition name="topScroll">
+                <div class="lyric-box" :class="classObj" :style="{top: top + 'px'}">
+                    <p v-for="item in lyricArr" :key="item.id"> {{ item }}</p>
+                </div>
+            </transition>
         </div>
     </div>
 </template>
@@ -68,12 +70,12 @@ export default {
                     lyric = ''
                 } else {
                     lyric = lyArr[i].slice(10)
-                    
+
                 }
                 this.lyricArr.push(lyric)
 
                 this.lyricTimeFormat(lyArr[i])
-                
+
             }
             console.log(this.lyricArr)
         },
@@ -87,10 +89,10 @@ export default {
 
         },
         //歌词滚动
-        lyricBoxMove( num ){
-            for (let i=1; i<this.lyricTimeArr.length; i++){
-                if ( num === this.lyricTimeArr[i]){
-                    this.top = 80 - i*40
+        lyricBoxMove(num) {
+            for (let i = 1; i < this.lyricTimeArr.length; i++) {
+                if (num === this.lyricTimeArr[i]) {
+                    this.top = 80 - i * 40
                 }
             }
         }

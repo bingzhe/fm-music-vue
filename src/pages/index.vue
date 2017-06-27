@@ -13,7 +13,7 @@
             <div class="channel-btn" :class="{'icon-menu': isMenu, 'icon-minus': !isMenu}"></div>
             <transition name="fade">
                 <ul class="channels-list" v-if="isChannelShow" @mouseleave="hiddenChannel">
-                    <li :class="{'list-selected': isListSelected === index}" v-for="(item, index) in channelsList" @click="addClassSelect(index)" :channel-id="item.channel_id">{{ item.name }}</li>
+                    <li :class="{'list-selected': isListSelected === index}" v-for="(item, index) in channelsList" :key="item.id" @click="addClassSelect(index)" :channel-id="item.channel_id">{{ item.name }}</li>
                 </ul>
             </transition>
         </div>
