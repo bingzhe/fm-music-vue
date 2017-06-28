@@ -1,7 +1,7 @@
 <template>
   <div id="rotate">
     <div class="needle needle-pause" :class="{ 'needle-play': !isPlay}"></div>
-    <div class="disco">
+    <div class="disco" :class="{'disco-play': !isPlay}">
       <div class="cover" :style="{ backgroundImage: 'url('+ pictureUrl +')'}"></div>
       <div class="current-cover" @click="text"></div>
     </div>
@@ -102,6 +102,12 @@ export default {
       background-size: cover;
       border-radius: 63px;
     }
+  }
+
+  .disco-play {
+    animation: rotate 25s linear;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
   }
 }
 </style>
