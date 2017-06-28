@@ -21,7 +21,7 @@
         <!--黑胶圆盘，歌词-->
         <transition name="fade">
             <keep-alive>
-                <router-view :picture-url="this.picture" :lyric-sid="this.sid"></router-view>
+                <router-view :picture-url="this.picture" :lyric-sid="this.sid" :is-play="isPlay"></router-view>
             </keep-alive>
         </transition>
     
@@ -38,7 +38,7 @@
         <div id="control">
             <div class="prev icon-prev"></div>
             <div class="next icon-next"></div>
-            <div class="on-off play icon-start1"></div>
+            <div class="on-off play" :class="isPlay ? 'icon-start1': 'icon-stop'" @click="isPlayStop"></div>
         </div>
     </div>
 </template>
@@ -75,6 +75,7 @@ export default {
             lyric: '',  //歌词地址
             sid: '',
             lyricObj: {},
+            isPlay: false, //暂停切换判断
 
         }
     },
@@ -141,8 +142,11 @@ export default {
             // console.log(this.picture)
             console.log(this.sid)
             // console.log(this.lyricObj)
+        },
+        //点击暂停播放
+        isPlayStop() {
+            this.isPlay = !this.isPlay
         }
-
     },
     mounted() {
         this.getChannelList()
@@ -312,7 +316,8 @@ export default {
         }
         .on-off {
             margin: 23px 63px;
-            @include wh(54px, 54px);
+            @include wh(54px,
+            54px);
             text-align: center;
             line-height: 54px;
             font-size: 25px;

@@ -9,7 +9,6 @@ Vue.use(Router)
 export default new Router({
     routes: [{
         path: '/',
-        name: 'IndexPage',
         component: IndexPage,
         children: [{
                 path: '',

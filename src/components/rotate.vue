@@ -1,6 +1,6 @@
 <template>
   <div id="rotate">
-    <div class="needle needle-pause"></div>
+    <div class="needle needle-pause" :class="{ 'needle-play': !isPlay}"></div>
     <div class="disco">
       <div class="cover" :style="{ backgroundImage: 'url('+ pictureUrl +')'}"></div>
       <div class="current-cover" @click="text"></div>
@@ -18,6 +18,9 @@ export default {
     lyricObj: {
       type: Object,
       // default: {}
+    },
+    isPlay: {
+      type: Boolean
     }
   },
   data() {
@@ -26,7 +29,7 @@ export default {
     }
   },
   methods: {
-    text(){
+    text() {
       console.log(this.pictureUrl)
       console.log(this.lyricObj)
     }
@@ -60,6 +63,10 @@ export default {
     -moz-transform: rotate(-25deg);
     -webkit-transform-origin: 12px 0;
     -moz-transform-origin: 12px 0;
+  }
+  .needle-play {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
   }
 
   .disco {
