@@ -1,6 +1,6 @@
 <template>
     <div id="fm-pane" class="clear">
-        <audio id="music" :src="musicUrl"></audio>
+        <audio id="music" :src="musicUrl" autoplay="autoplay"></audio>
         <!--返回键-->
         <div class="back close icon-back left" @click="closeMySelf"></div>
         <!-- 标题栏 -->
