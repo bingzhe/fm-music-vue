@@ -143,8 +143,17 @@ export default {
             console.log(this.sid)
             // console.log(this.lyricObj)
         },
+
         //点击暂停播放
         isPlayStop() {
+            let audio = document.getElementById('music')
+
+            if (!this.isPlay) {
+                audio.pause()
+            } else {
+                audio.play()
+            }
+
             this.isPlay = !this.isPlay
         }
     },
