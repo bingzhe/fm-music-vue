@@ -100,6 +100,8 @@ export default {
             console.log(this.channelId)
             this.getAndReset(this.channelId);
         },
+
+
         // 请求拿到音乐频道列表
         getChannelList() {
             this.$http({
@@ -113,6 +115,8 @@ export default {
                     console.log(error)
                 })
         },
+
+
         // 请求歌曲
         getAndReset(str) {
             $.get('http://api.jirengu.com/fm/getSong.php', {
@@ -122,11 +126,15 @@ export default {
                     this.song = JSON.parse(data).song[0]
                     this.songArr.push(this.song)
                     this.songReset(this.song) //重置歌曲
+                    console.log("aaaaa")
+                    console.log(this.songArr)
                 })
                 .fail((err) => {
                     console.log(err)
                 })
         },
+
+
         //歌曲重置
         songReset(song) {
             console.log(song)
