@@ -28,6 +28,11 @@ export default {
             drag: {}
         }
     },
+    watch: {
+        width: function(){
+            console.log(this.width)
+        }
+    },
     methods: {
 
         // 拖动控制播放进度

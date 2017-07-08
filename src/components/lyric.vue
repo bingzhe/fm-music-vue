@@ -77,6 +77,8 @@ export default {
                 this.lyricTimeFormat(lyArr[i])
 
             }
+            this.lyricArr.shift()
+            
             console.log(this.lyricArr)
         },
         //处理时间
