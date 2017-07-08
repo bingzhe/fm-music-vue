@@ -28,6 +28,11 @@ export default {
             drag: {}
         }
     },
+    watch: {
+        width: function() {
+            this.$emit('on-change', this.width)
+        }
+    },
     methods: {
         // 拖动控制播放进度
         dragMove() {

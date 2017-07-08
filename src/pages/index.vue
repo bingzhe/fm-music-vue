@@ -29,7 +29,7 @@
         <router-link :to="this.$route.path === '/rotate' ? '/lyric': '/rotate'" class="lyric-btn icon-lyric" :class="{ 'lyric-btn-active': this.$route.path === '/rotate' ? false : true}" title="歌词显示"></router-link>
     
         <!-- 音量控制 -->
-        <volume-ctrl></volume-ctrl>
+        <volume-ctrl @on-change="changeVolume($event)"></volume-ctrl>
     
         <!--进度条-->
         <progress-ctrl></progress-ctrl>
@@ -125,8 +125,6 @@ export default {
                     this.song = JSON.parse(data).song[0]
                     this.songArr.push(this.song)
                     this.songReset(this.song) //重置歌曲
-                    console.log(1111111111111)
-                    console.log(this.songArr)
                 })
                 .fail((err) => {
                     console.log(err)
@@ -147,7 +145,7 @@ export default {
             this.lyricObj.lyric = song.lrc
             this.lyricObj.sid = song.sid
             // console.log(this.picture)
-            console.log(this.sid)
+            //console.log(this.sid)
             // console.log(this.lyricObj)
         },
 
@@ -185,12 +183,16 @@ export default {
             if (this.songArr.length > 1) {
                 this.isPlay = true   //暂停歌曲
                 audio.pause()
-                
+
                 this.songArr.pop()
                 this.songReset(this.songArr[this.songArr.length - 1])
             }
+        },
 
-
+        //音量大小切换
+        changeVolume(val) { 
+            let audio = document.getElementById('music')
+            audio.volume = val/100
         }
 
     },
