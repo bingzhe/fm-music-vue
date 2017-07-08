@@ -36,7 +36,7 @@
     
         <!--  播放控制  -->
         <div id="control">
-            <div class="prev icon-prev"></div>
+            <div class="prev icon-prev" @click="prevSong"></div>
             <div class="next icon-next" @click="nextSong"></div>
             <div class="on-off play" :class="isPlay ? 'icon-start1': 'icon-stop'" @click="isPlayStop"></div>
         </div>
@@ -179,7 +179,17 @@ export default {
         },
 
         //上一曲
-        prevSong(){
+        prevSong() {
+            let audio = document.getElementById('music')
+
+            if (this.songArr.length > 1) {
+                this.isPlay = true   //暂停歌曲
+                audio.pause()
+                
+                this.songArr.pop()
+                this.songReset(this.songArr[this.songArr.length - 1])
+            }
+
 
         }
 
