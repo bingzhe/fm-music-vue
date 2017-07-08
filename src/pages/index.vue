@@ -1,6 +1,6 @@
 <template>
     <div id="fm-pane" class="clear">
-        <audio id="music" :src="musicUrl" autoplay="autoplay"></audio>
+        <audio id="music" :src="musicUrl" autoplay></audio>
         <!--返回键-->
         <div class="back close icon-back left" @click="closeMySelf"></div>
         <!-- 标题栏 -->
@@ -37,7 +37,7 @@
         <!--  播放控制  -->
         <div id="control">
             <div class="prev icon-prev"></div>
-            <div class="next icon-next"></div>
+            <div class="next icon-next" @click="nextSong"></div>
             <div class="on-off play" :class="isPlay ? 'icon-start1': 'icon-stop'" @click="isPlayStop"></div>
         </div>
     </div>
@@ -97,7 +97,6 @@ export default {
         addClassSelect(index) {
             this.isListSelected = index
             this.channelId = $('.list-selected').attr('channel-id')
-            console.log(this.channelId)
             this.getAndReset(this.channelId);
         },
 
@@ -126,7 +125,7 @@ export default {
                     this.song = JSON.parse(data).song[0]
                     this.songArr.push(this.song)
                     this.songReset(this.song) //重置歌曲
-                    console.log("aaaaa")
+                    console.log(1111111111111)
                     console.log(this.songArr)
                 })
                 .fail((err) => {
@@ -163,7 +162,27 @@ export default {
             }
 
             this.isPlay = !this.isPlay
+        },
+
+        //下一曲
+        nextSong() {
+            let audio = document.getElementById('music')
+
+            this.isPlay = true   //暂停歌曲
+            audio.pause()
+            this.getAndReset(this.channelId)
+
+            //开始播放后黑胶开始转动
+            audio.addEventListener('playing', () => {
+                this.isPlay = false
+            }, false)
+        },
+
+        //上一曲
+        prevSong(){
+
         }
+
     },
     mounted() {
         this.getChannelList()
