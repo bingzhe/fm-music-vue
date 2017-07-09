@@ -35,7 +35,7 @@ export default {
     },
     watch: {
         width: function () {
-            // console.log(this.width)
+            console.log(this.width)
         },
         progressObj: {
             handler: function(val, oldVal){
@@ -55,6 +55,9 @@ export default {
         dragMove() {
             this.drag.on('dragMove', () => {
                 this.width = this.drag.position.x
+                // console.log(11111)
+                this.currentTimeSec = this.width/200*this.progressObj.fullTimeSec
+                this.$emit('on-change', this.currentTimeSec)
             })
             this.drag.on('dragStart', () => {
                 //播放暂停
@@ -62,7 +65,7 @@ export default {
             })
             this.drag.on('dragEnd', () => {
                 //播放开始，计算正确的播放进度
-                console.log(this.width)
+                this.$emit('on-play')
             })
         },
 

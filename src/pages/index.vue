@@ -32,7 +32,7 @@
         <volume-ctrl @on-change="changeVolume($event)"></volume-ctrl>
     
         <!--进度条-->
-        <progress-ctrl :progress-obj="this.progressObj" @on-change="setMusicCurrentTime($event)" @on-pause="pauseMusic"></progress-ctrl>
+        <progress-ctrl :progress-obj="this.progressObj" @on-change="setMusicCurrentTime($event)" @on-pause="pauseMusic" @on-play="playMusic"></progress-ctrl>
     
         <!--  播放控制  -->
         <div id="control">
@@ -184,25 +184,31 @@ export default {
         //暂停 
         pauseMusic() {
             let audio = document.getElementById('music')
+            clearInterval(this.clock)
             this.isPlay = true   //暂停歌曲
             audio.pause()
         },
+        playMusic() {
+            let audio = document.getElementById('music')
+            this.isPlay = false
+            audio.play()
+            // //添加计时器,每隔一秒获取一次当前播放位置
+            // this.clock = setInterval(() => {
+            //     this.progressObj = Object.assign({}, this.progressObj, { currentTimeSec: audio.currentTime })
+            //     console.log(this.progressObj.currentTime)
+            // }, 1000)
+        },
         //下一曲
         nextSong() {
-            let audio = document.getElementById('music')
-
-            this.isPlay = true   //暂停歌曲
-            audio.pause()
+            this.pauseMusic()
             this.getAndReset(this.channelId)
         },
 
         //开始播放
         audioPlay() {
             let audio = document.getElementById('music')
-
             //开始播放时黑胶开始转动
             this.isPlay = false
-
             //添加计时器,每隔一秒获取一次当前播放位置
             this.clock = setInterval(() => {
                 this.progressObj = Object.assign({}, this.progressObj, { currentTimeSec: audio.currentTime })
@@ -220,7 +226,7 @@ export default {
         //上一曲
         prevSong() {
             let audio = document.getElementById('music')
-
+            clearInterval(this.clock)
             if (this.songArr.length > 1) {
                 this.isPlay = true   //暂停歌曲
                 audio.pause()
