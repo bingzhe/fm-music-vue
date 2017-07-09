@@ -3,7 +3,7 @@
         <div class="lyric-ct">
             <transition name="topScroll">
                 <div class="lyric-box" :class="classObj" :style="{top: top + 'px'}">
-                    <p v-for="item in lyricArr" :key="item.id"> {{ item }}</p>
+                    <p v-for="(item, index) in lyricArr" :key="item.id" :class="{'light-lyric': isLight == index}"> {{ item }}</p>
                 </div>
             </transition>
         </div>
@@ -16,8 +16,12 @@ export default {
         lyricSid: {
             type: Number | String
             // default: {},
+        },
+        progressObj: {
+            type: Object
         }
     },
+
     data() {
         return {
             Lyric: '',
@@ -27,13 +31,24 @@ export default {
             },
             lyricArr: [],   //歌词数组
             lyricTimeArr: [],  //时间数组
-            top: 80
+            top: 80,
+            currentTimeSec: 0,
+            isLight: 0
         }
     },
+
     watch: {
         //父组件传过来的lyricSid值改变的时候，重置歌词
         lyricSid: function () {
             this.lyricReset(this.lyricSid)
+        },
+        progressObj: {
+            handler: function () {
+                this.currentTimeSec = Math.round(this.progressObj.currentTimeSec)
+                this.lyricBoxMove(this.currentTimeSec)
+                console.log(this.currentTimeSec)
+            },
+            deep: true
         }
 
 
@@ -57,6 +72,7 @@ export default {
         //处理歌词
         lyricFormat(str) {
             this.lyricArr = []
+            this.lyricTimeArr = []
             let lyArr = str.split('\n')
             let reg1 = /^\[ti:/
             let reg2 = /^\[ar:/
@@ -78,16 +94,16 @@ export default {
 
             }
             this.lyricArr.shift()
-            
+            this.lyricArr.unshift('')
             console.log(this.lyricArr)
         },
         //处理时间
         lyricTimeFormat(str) {
-
             let min = Number(str.slice(1, 3))
             let sec = min * 60 + Number(str.slice(4, 6))
 
             this.lyricTimeArr.push(sec)
+            console.log(this.lyricTimeArr)
 
         },
         //歌词滚动
@@ -95,6 +111,7 @@ export default {
             for (let i = 1; i < this.lyricTimeArr.length; i++) {
                 if (num === this.lyricTimeArr[i]) {
                     this.top = 80 - i * 40
+                    this.isLight = i
                 }
             }
         }
@@ -138,6 +155,10 @@ export default {
             line-height: 40px;
             overflow: hidden;
             color: rgba(170, 170, 170, 0.7);
+
+            .light-lyric {
+                color: #fff;
+            }
         }
     }
 }

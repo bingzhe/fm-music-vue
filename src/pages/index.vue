@@ -21,7 +21,7 @@
         <!--黑胶圆盘，歌词-->
         <transition name="fade">
             <keep-alive>
-                <router-view :picture-url="this.picture" :lyric-sid="this.sid" :is-play="this.isPlay"></router-view>
+                <router-view :picture-url="this.picture" :lyric-sid="this.sid" :is-play="this.isPlay" :progress-obj="this.progressObj"></router-view>
             </keep-alive>
         </transition>
     
@@ -74,7 +74,7 @@ export default {
             picture: '../assets/timg4.jpg', //图片
             lyric: '',  //歌词地址
             sid: '',
-            lyricObj: {},
+            // lyricObj: {},
             isPlay: false, //暂停切换判断
             progressObj: {},
             fullTimeSec: 0,  //音频长度
@@ -140,15 +140,15 @@ export default {
         songReset(song) {
             let audio = document.getElementById('music')
 
-            console.log(song)
+
             this.musicUrl = song.url
             audio.load()   // 重新加载音频元素
             this.songName = song.title
             this.songer = song.artist
             this.picture = song.picture
             this.sid = song.sid
-            this.lyricObj.lyric = song.lrc
-            this.lyricObj.sid = song.sid
+            // this.lyricObj.lyric = song.lrc
+            // this.lyricObj.sid = song.sid
 
 
 
@@ -190,11 +190,6 @@ export default {
             let audio = document.getElementById('music')
             this.isPlay = false
             audio.play()
-            // //添加计时器,每隔一秒获取一次当前播放位置
-            // this.clock = setInterval(() => {
-            //     this.progressObj = Object.assign({}, this.progressObj, { currentTimeSec: audio.currentTime })
-            //     console.log(this.progressObj.currentTime)
-            // }, 1000)
         },
         //下一曲
         nextSong() {
