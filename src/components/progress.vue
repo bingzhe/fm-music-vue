@@ -1,7 +1,7 @@
 <template>
     <div id="progress" class="clearfix">
-        <div class="time current-time">0:00</div>
-        <div class="time full-time">0:00</div>
+        <div class="time current-time">{{ currentTime }}</div>
+        <div class="time full-time">{{ fullTime }}</div>
         <div class="progress-bar" @click="clickCtrl($event)">
             <div class="progress-pathway">
                 <div class="progress-line" :style="{width: width + 'px'}">
@@ -27,17 +27,27 @@ export default {
     data() {
         return {
             width: 0,
-            // fullTimeSec,
+            fullTime: '0:00',
+            currentTime: '0:00',
+            currentTimeSec: 0,
             drag: {}
         }
     },
     watch: {
-        width: function(){
-            console.log(this.width)
-            console.log(this.progressObj)
+        width: function () {
+            // console.log(this.width)
         },
+        progressObj: {
+            handler: function(val, oldVal){
+                //显示播放时长和进度
+                this.fullTime = this.timeFormat(this.progressObj.fullTimeSec)
+                this.currentTime = this.timeFormat(this.progressObj.currentTimeSec)
+                this.width = this.progressObj.currentTimeSec/this.progressObj.fullTimeSec*200
+                let $progressHandle = $('.progress-handle').css('left', this.width + 'px')
+            },
+            deep: true
+        }
 
-        // progressObj.currentTimeSec: 
     },
     methods: {
 
@@ -48,9 +58,11 @@ export default {
             })
             this.drag.on('dragStart', () => {
                 //播放暂停
+                this.$emit('on-pause')
             })
             this.drag.on('dragEnd', () => {
                 //播放开始，计算正确的播放进度
+                console.log(this.width)
             })
         },
 
@@ -60,6 +72,9 @@ export default {
             let $progressHandle = $('.progress-handle').css('left', this.width + 'px')
 
             //设置正确的播放时间
+            this.currentTimeSec = this.width/200*this.progressObj.fullTimeSec
+            console.log(this.currentTimeSec)
+            this.$emit('on-change', this.currentTimeSec)
 
         },
 
@@ -80,6 +95,21 @@ export default {
                 //否则，我们需要使用IE的方式来取消事件冒泡
                 window.event.cancelBubble = true
             }
+        },
+        //处理时间
+        timeFormat(num) {
+            let fullSec = parseInt(num)
+            let min = parseInt(fullSec / 60) + ''
+            let sec = (fullSec % 60)
+
+            if (sec < 10) {
+                sec = '0' + sec
+            } else {
+                sec = sec + ''
+            }
+
+            let timeStr = min + ':' + sec
+            return timeStr
         }
     },
     mounted() {
@@ -89,10 +119,6 @@ export default {
         })
 
         this.dragMove()
-
-        
-
-
     }
 }
 </script>

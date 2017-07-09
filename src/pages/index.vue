@@ -1,6 +1,6 @@
 <template>
     <div id="fm-pane" class="clear">
-        <audio id="music" :src="musicUrl" autoplay @playing="audioPlay" @pause="audioPause" @durationchange="getMusicFullTime"></audio>
+        <audio id="music" :src="musicUrl" autoplay @playing="audioPlay" @pause="audioPause" @durationchange="getMusicFullTime" @ended="nextSong"></audio>
         <!--返回键-->
         <div class="back close icon-back left" @click="closeMySelf"></div>
         <!-- 标题栏 -->
@@ -32,7 +32,7 @@
         <volume-ctrl @on-change="changeVolume($event)"></volume-ctrl>
     
         <!--进度条-->
-        <progress-ctrl :progress-obj = "this.progressObj"></progress-ctrl>
+        <progress-ctrl :progress-obj="this.progressObj" @on-change="setMusicCurrentTime($event)" @on-pause="pauseMusic"></progress-ctrl>
     
         <!--  播放控制  -->
         <div id="control">
@@ -141,7 +141,7 @@ export default {
 
             console.log(song)
             this.musicUrl = song.url
-            audio.load();   // 重新加载音频元素
+            audio.load()   // 重新加载音频元素
             this.songName = song.title
             this.songer = song.artist
             this.picture = song.picture
@@ -159,9 +159,14 @@ export default {
         getMusicFullTime() {
             let audio = document.getElementById('music')
 
-            this.progressObj.fullTimeSec = audio.duration
-            this.fullTimeSec = audio.duration
-            // console.log(this.fullTimeSec)
+            this.progressObj = Object.assign({}, this.progressObj, { fullTimeSec: audio.duration })
+
+        },
+        //设置跳转的播放进度
+        setMusicCurrentTime(val) {
+            let audio = document.getElementById('music')
+
+            audio.currentTime = val
         },
 
         //点击暂停播放
@@ -176,7 +181,12 @@ export default {
 
             this.isPlay = !this.isPlay
         },
-
+        //暂停 
+        pauseMusic() {
+            let audio = document.getElementById('music')
+            this.isPlay = true   //暂停歌曲
+            audio.pause()
+        },
         //下一曲
         nextSong() {
             let audio = document.getElementById('music')
@@ -195,10 +205,7 @@ export default {
 
             //添加计时器,每隔一秒获取一次当前播放位置
             this.clock = setInterval(() => {
-                this.progressObj.currentTimeSec = audio.currentTime
-                this.currentTimeSec = audio.currentTime
-                // console.log(this.currentTimeSec)
-                // console.log(this.progressObj)
+                this.progressObj = Object.assign({}, this.progressObj, { currentTimeSec: audio.currentTime })
             }, 1000)
         },
 
