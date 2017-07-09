@@ -46,7 +46,6 @@ export default {
             handler: function () {
                 this.currentTimeSec = Math.round(this.progressObj.currentTimeSec)
                 this.lyricBoxMove(this.currentTimeSec)
-                console.log(this.currentTimeSec)
             },
             deep: true
         }
@@ -60,10 +59,10 @@ export default {
                 sid: sidstr
             })
                 .done((data) => {
+
                     this.Lyric = JSON.parse(data).lyric
                     this.lyricFormat(this.Lyric)
 
-                    console.log(this.Lyric)
                 })
                 .fail((err) => {
                     console.log(err)
@@ -83,19 +82,24 @@ export default {
             for (let i = 0; i < lyArr.length; i++) {
 
                 if (reg1.test(lyArr[i]) || reg2.test(lyArr[i]) || reg3.test(lyArr[i]) || reg4.test(lyArr[i])) {
-                    lyric = ''
+                    lyric = '-'
                 } else {
                     lyric = lyArr[i].slice(10)
-
                 }
+
+                if (!lyric) {
+                    lyric = '-'
+                }
+
+
                 this.lyricArr.push(lyric)
 
                 this.lyricTimeFormat(lyArr[i])
 
             }
             this.lyricArr.shift()
-            this.lyricArr.unshift('')
-            console.log(this.lyricArr)
+            this.lyricArr.unshift('音乐来自百度FM')
+
         },
         //处理时间
         lyricTimeFormat(str) {
@@ -103,7 +107,6 @@ export default {
             let sec = min * 60 + Number(str.slice(4, 6))
 
             this.lyricTimeArr.push(sec)
-            console.log(this.lyricTimeArr)
 
         },
         //歌词滚动
@@ -117,13 +120,10 @@ export default {
         }
     },
     beforeUpdate() {
-        // this.lyricReset(this.lyricObj.sid)
-        // console.log(this.lyricSid)
+
     },
     mounted() {
-        // console.log(this.lyricObj)
-        // this.lyricReset(this.lyricSid)
-        // console.log(this.Lyric)
+
     }
 }
 </script>
