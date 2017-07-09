@@ -128,6 +128,7 @@ export default {
                     this.song = JSON.parse(data).song[0]
                     this.songArr.push(this.song)
                     this.songReset(this.song) //重置歌曲
+                    clearInterval(this.clock)
                 })
                 .fail((err) => {
                     console.log(err)
