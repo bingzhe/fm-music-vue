@@ -20,18 +20,24 @@ import Draggabilly from 'draggabilly'
 export default {
 
     props: {
-
+        progressObj: {
+            type: Object
+        }
     },
     data() {
         return {
             width: 0,
+            // fullTimeSec,
             drag: {}
         }
     },
     watch: {
         width: function(){
             console.log(this.width)
-        }
+            console.log(this.progressObj)
+        },
+
+        // progressObj.currentTimeSec: 
     },
     methods: {
 
@@ -83,6 +89,9 @@ export default {
         })
 
         this.dragMove()
+
+        
+
 
     }
 }

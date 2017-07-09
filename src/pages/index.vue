@@ -1,6 +1,6 @@
 <template>
     <div id="fm-pane" class="clear">
-        <audio id="music" :src="musicUrl" autoplay></audio>
+        <audio id="music" :src="musicUrl" autoplay @playing="audioPlay" @pause="audioPause" @durationchange="getMusicFullTime"></audio>
         <!--返回键-->
         <div class="back close icon-back left" @click="closeMySelf"></div>
         <!-- 标题栏 -->
@@ -32,7 +32,7 @@
         <volume-ctrl @on-change="changeVolume($event)"></volume-ctrl>
     
         <!--进度条-->
-        <progress-ctrl></progress-ctrl>
+        <progress-ctrl :progress-obj = "this.progressObj"></progress-ctrl>
     
         <!--  播放控制  -->
         <div id="control">
@@ -76,7 +76,10 @@ export default {
             sid: '',
             lyricObj: {},
             isPlay: false, //暂停切换判断
-
+            progressObj: {},
+            fullTimeSec: 0,  //音频长度
+            currentTimeSec: 0,  // 当前播放位置
+            clock: {}
         }
     },
     computed: {
@@ -134,9 +137,11 @@ export default {
 
         //歌曲重置
         songReset(song) {
+            let audio = document.getElementById('music')
+
             console.log(song)
             this.musicUrl = song.url
-            document.getElementById("music").load();
+            audio.load();   // 重新加载音频元素
             this.songName = song.title
             this.songer = song.artist
             this.picture = song.picture
@@ -147,6 +152,16 @@ export default {
             // console.log(this.picture)
             //console.log(this.sid)
             // console.log(this.lyricObj)
+
+
+        },
+        //获取音频长度
+        getMusicFullTime() {
+            let audio = document.getElementById('music')
+
+            this.progressObj.fullTimeSec = audio.duration
+            this.fullTimeSec = audio.duration
+            // console.log(this.fullTimeSec)
         },
 
         //点击暂停播放
@@ -169,12 +184,31 @@ export default {
             this.isPlay = true   //暂停歌曲
             audio.pause()
             this.getAndReset(this.channelId)
-
-            //开始播放后黑胶开始转动
-            audio.addEventListener('playing', () => {
-                this.isPlay = false
-            }, false)
         },
+
+        //开始播放
+        audioPlay() {
+            let audio = document.getElementById('music')
+
+            //开始播放时黑胶开始转动
+            this.isPlay = false
+
+            //添加计时器,每隔一秒获取一次当前播放位置
+            this.clock = setInterval(() => {
+                this.progressObj.currentTimeSec = audio.currentTime
+                this.currentTimeSec = audio.currentTime
+                // console.log(this.currentTimeSec)
+                // console.log(this.progressObj)
+            }, 1000)
+        },
+
+        //暂停
+        audioPause() {
+            //清除计时器
+            clearInterval(this.clock)
+        },
+
+
 
         //上一曲
         prevSong() {
@@ -190,16 +224,15 @@ export default {
         },
 
         //音量大小切换
-        changeVolume(val) { 
+        changeVolume(val) {
             let audio = document.getElementById('music')
-            audio.volume = val/100
+            audio.volume = val / 100
         }
 
     },
     mounted() {
         this.getChannelList()
         this.getAndReset(this.channelId)
-        // console.log(this.lyricObj)
     }
 }
 </script>
