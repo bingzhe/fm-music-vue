@@ -3,7 +3,7 @@
     <div class="needle needle-pause" :class="{ 'needle-play': !isPlay}"></div>
     <div class="disco" :class="{'disco-play': !isPlay}">
       <div class="cover" :style="{ backgroundImage: 'url('+ pictureUrl +')'}"></div>
-      <div class="current-cover" @click="text"></div>
+      <div class="current-cover"></div>
     </div>
   </div>
 </template>
@@ -15,10 +15,10 @@ export default {
       type: String,
       default: '',
     },
-    lyricObj: {
-      type: Object,
-      // default: {}
-    },
+    // lyricObj: {
+    //   type: Object,
+    //   // default: {}
+    // },
     isPlay: {
       type: Boolean
     }
@@ -29,13 +29,10 @@ export default {
     }
   },
   methods: {
-    text() {
-      console.log(this.pictureUrl)
-      console.log(this.lyricObj)
-    }
+
   },
   mounted() {
-    // console.log(this.pictureUrl)
+  
   }
 }
 </script>

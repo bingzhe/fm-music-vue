@@ -21,7 +21,7 @@
         <!--黑胶圆盘，歌词-->
         <transition name="fade">
             <keep-alive>
-                <router-view :picture-url="this.picture" :lyric-sid="this.sid" :is-play="isPlay"></router-view>
+                <router-view :picture-url="this.picture" :lyric-sid="this.sid" :is-play="this.isPlay"></router-view>
             </keep-alive>
         </transition>
     
@@ -146,13 +146,10 @@ export default {
             this.songName = song.title
             this.songer = song.artist
             this.picture = song.picture
-            // this.lyric = song.lrc
             this.sid = song.sid
             this.lyricObj.lyric = song.lrc
             this.lyricObj.sid = song.sid
-            // console.log(this.picture)
-            //console.log(this.sid)
-            // console.log(this.lyricObj)
+
 
 
         },
@@ -227,8 +224,9 @@ export default {
         //上一曲
         prevSong() {
             let audio = document.getElementById('music')
-            clearInterval(this.clock)
+            
             if (this.songArr.length > 1) {
+                clearInterval(this.clock)
                 this.isPlay = true   //暂停歌曲
                 audio.pause()
 
