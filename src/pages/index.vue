@@ -71,7 +71,7 @@ export default {
             songName: '', //歌曲名
             songer: '', //歌手
             musicUrl: '',  //歌曲地址
-            picture: '../assets/timg4.jpg', //图片
+            picture: './static/img/timg4.e4aa80f.jpg', //图片
             lyric: '',  //歌词地址
             sid: '',
             // lyricObj: {},

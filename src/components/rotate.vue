@@ -13,7 +13,7 @@ export default {
   props: {
     pictureUrl: {
       type: String,
-      default: '',
+      // default: 'www.ranzhouli.cn/fmvue/static/img/timg4.e4aa80f.jpg',
     },
     // lyricObj: {
     //   type: Object,
